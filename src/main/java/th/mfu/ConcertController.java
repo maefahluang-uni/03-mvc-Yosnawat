@@ -1,77 +1,70 @@
 package th.mfu;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ConcertController {
-    // HashMap to store concerts with id as key
-    private static HashMap<Integer, Concert> concerts = new HashMap<>();
-    private static int nextId = 1;
+    // TODO: create hashmap of concerts for storing data
+    private Map<Integer, Concert> concerts = new HashMap<>();
+    private int nextId = 1;
 
-    // Initialize date format for binding
+    // TODO: add initbinder to convert date
     @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    public void initbinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
 
     @GetMapping("/concerts")
     public String listConcerts(Model model) {
-        // Add all concerts to model as a list
-        model.addAttribute("concerts", new ArrayList<>(concerts.values()));
-        // Return template to list concerts
-        return "list-concerts";
+        // TODO: add concerts to model
+        model.addAttribute("concerts", concerts.values());
+        // TODO: return a template to list concerts
+        return "list-concert";
     }
 
     @GetMapping("/add-concert")
     public String addAConcertForm(Model model) {
-        // Pass a new empty concert to the form
+        // TODO: pass blank concert to a form
         model.addAttribute("concert", new Concert());
-        // Return template for concert form
+        // TODO: return a template for concert form
         return "add-concert-form";
     }
 
     @PostMapping("/concerts")
     public String saveConcert(@ModelAttribute Concert concert) {
-        // Set ID and add concert to HashMap
-        concert.setId(nextId);
-        concerts.put(nextId, concert);
-        // Increment nextId
-        nextId++;
-        // Redirect to list concerts
+        // TODO: add concert to list of concerts
+        concert.setId(nextId++);
+        concerts.put(concert.getId(), concert);
+        // TODO: increment nextId
+        // TODO: redirect to list concerts
         return "redirect:/concerts";
     }
 
     @GetMapping("/delete-concert/{id}")
     public String deleteConcert(@PathVariable int id) {
-        // Remove concert with given id
+        // TODO: remove concert from list of concerts
         concerts.remove(id);
-        // Redirect to list concerts
+        // TODO: redirect to list concerts
         return "redirect:/concerts";
     }
 
     @GetMapping("/delete-concert")
     public String removeAllConcerts() {
-        // Clear all concerts and reset id
+        //TODO: clear all concerts and reset id
         concerts.clear();
         nextId = 1;
-        // Redirect to list concerts
+        // TODO: redirect to list concerts
         return "redirect:/concerts";
     }
+
 }

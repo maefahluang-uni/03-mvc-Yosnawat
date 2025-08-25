@@ -3,22 +3,21 @@ package th.mfu;
 import java.util.Date;
 
 public class Concert {
+
+    //TODO: add attributes
     private int id;
     private String title;
     private String performer;
     private Date date;
     private String description;
-    //TODO: add attributes
 
     public Concert() {
     }
     public Concert(String title, String description) {
         //TODO: set attributes
-        this.id = 0;
         this.title = title;
-        this.performer = "";
-        this.date = null;
         this.description = description;
+
     }
  
     //TODO: add getters and setters for all attributes
@@ -63,4 +62,3 @@ public class Concert {
         this.description = description;
     }
 }
-
